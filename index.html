@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#292929">
+<title>HOME Market Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#292929; --ink2:#333333; --gold:#FCB318; --gold-t:#A2750A;
+  --cream:#FAF7F0; --beige:#EDE6D9; --sand:#D9CFBF; --line:#E7E0D3;
+  --muted:#6C716C; --text:#16201E; --bg:#F3EFE7; --white:#fff;
+  --green:#1E7A45; --red:#B3261E;
+  --sans:"Inter","Noto Sans Thai",system-ui,sans-serif;
+  --serif:"Source Serif 4","Noto Sans Thai",Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--sans);color:var(--text);background:var(--bg);-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* ---------- app shell ---------- */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;height:56px;padding:0 16px;background:var(--ink);color:#fff}
+.top .logo{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.22em;font-size:11px;color:#BDBDBD}
+.top .logo img{height:30px;display:block}
+.top .sp{flex:1}
+.top .save{font-size:12px;color:#A8A8A8}
+.tbtn{border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:8px;padding:7px 12px;font-size:13px;white-space:nowrap}
+.tbtn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600}
+.btn{border:1px solid var(--sand);background:#fff;border-radius:8px;padding:8px 14px;font-size:14px}
+.btn.pri{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600}
+.btn.sm{padding:5px 10px;font-size:12px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.danger{color:var(--red)}
+
+/* list */
+.list{max-width:1080px;margin:0 auto;padding:20px 16px 80px}
+.list-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.list-h h1{font-family:var(--serif);font-weight:500;font-size:28px;margin:0;flex:1;min-width:200px}
+.search{flex:1;min-width:200px;height:40px;border:1px solid var(--sand);border-radius:8px;padding:0 12px;background:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.scard{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.scard .im{height:130px;background:var(--beige) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#A99F8D;font-size:11px;letter-spacing:.2em}
+.scard .bd{padding:12px 14px;flex:1;cursor:pointer}
+.scard .code{font-size:11px;letter-spacing:.12em;color:var(--muted)}
+.scard .nm{font-weight:600;font-size:16px;margin:2px 0 6px}
+.scard .pr{font-family:var(--serif);font-size:20px}
+.scard .ft{display:flex;align-items:center;gap:4px;padding:8px 10px;border-top:1px solid var(--line)}
+.scard .ft .sp{flex:1}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--beige);color:#5E5544}
+.badge.draft{background:#FFF2C8;color:#7A5A00}
+.badge.sent{background:#E3EEFB;color:#1D4F86}
+.badge.a,.badge.b{background:#E1F2E6;color:#1E6B3C}
+.badge.rev{background:#FBE6E4;color:#9A2A20}
+.empty{background:#fff;border:1px dashed var(--sand);border-radius:12px;padding:40px 20px;text-align:center;color:var(--muted)}
+.empty h2{font-family:var(--serif);font-weight:500;color:var(--text);margin:0 0 6px}
+
+/* editor */
+.ed{display:grid;grid-template-columns:minmax(380px,540px) minmax(0,1fr);min-height:calc(100vh - 56px)}
+.form{padding:16px 18px 110px;border-right:1px solid var(--line);background:var(--cream)}
+.steps{display:flex;gap:4px;margin:0 0 16px;overflow-x:auto}
+.steps button{flex:1;border:0;background:var(--beige);color:#5E5544;padding:8px 6px;border-radius:8px;font-size:13px;white-space:nowrap}
+.steps button.on{background:var(--ink);color:#fff}
+.sec{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.sec h3{margin:0 0 10px;font-size:12px;letter-spacing:.14em;color:var(--muted);font-weight:700;text-transform:uppercase}
+.fld{display:block;margin-bottom:10px}
+.fld>span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.fld input,.fld select,.fld textarea,.inp{width:100%;height:42px;border:1px solid var(--sand);border-radius:8px;padding:0 10px;background:#fff;font-size:16px}
+.fld textarea{height:auto;min-height:80px;padding:8px 10px;resize:vertical;line-height:1.5}
+.fld input:focus,.fld textarea:focus,.fld select:focus,.inp:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:var(--gold)}
+.row{display:grid;gap:8px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr))}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{border:1px solid var(--sand);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.add{border-style:dashed;color:var(--muted)}
+.wnum{display:flex;gap:6px}
+.wnum input{flex:1;min-width:0}
+.wnum button{border:1px solid var(--sand);background:var(--beige);border-radius:8px;padding:0 10px;font-size:13px}
+.stp{display:flex;align-items:center;justify-content:space-between;height:42px;border:1px solid var(--sand);border-radius:8px;background:#fff;overflow:hidden}
+.stp button{width:40px;height:100%;border:0;background:var(--beige);font-size:18px}
+.stp b{font-family:var(--serif);font-size:18px;font-weight:500}
+.auto{background:#E7F3EA;color:#1E5E36;border-radius:8px;padding:8px 10px;font-size:13px;margin-bottom:10px}
+.auto b{font-weight:600}
+.photos{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:10px}
+.photo{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;height:160px;border:1px dashed #BDB2A0;border-radius:10px;background:var(--beige) center/cover no-repeat;color:#8E836F;font-size:12px;cursor:pointer;text-align:center;overflow:hidden}
+.photo input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.photo.has{border-style:solid;color:transparent}
+.photo .rm{position:absolute;top:4px;right:4px;z-index:2;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:14px;line-height:1}
+.cc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px;margin-bottom:10px}
+.cc.last{background:#FFF8E3;border-color:#F0D88E}
+.cc-h{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.cc-h .n{font-weight:700;font-size:13px;width:22px}
+.seg{display:inline-flex;border:1px solid var(--sand);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:5px 10px;font-size:12px}
+.seg button.on{background:var(--ink);color:#fff}
+.seg button.on.gold{background:var(--gold);color:var(--ink);font-weight:600}
+.chk{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);margin-left:auto}
+.cc-b{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px}
+.cc-b .photo{height:84px;font-size:11px}
+.cc-b .fld{margin-bottom:6px}
+.cc-o{font-size:12px;color:#1E5E36;background:#E7F3EA;border-radius:6px;padding:6px 8px;margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.tag{font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:#fff;color:#5E5544}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.stat{background:var(--cream);border-radius:8px;padding:8px 10px}
+.stat span{display:block;font-size:11px;color:var(--muted)}
+.stat b{font-family:var(--serif);font-size:18px;font-weight:500}
+.plan{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.plan.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plan.dark .fld>span{color:#A8A8A8}
+.plan.dark .fld input,.plan.dark .fld textarea{background:var(--ink2);border-color:#474747;color:#fff}
+.plan h4{margin:0 0 8px;font-size:14px}
+.plan .res{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 8px}
+.plan .res div{background:rgba(127,127,127,.1);border-radius:8px;padding:8px}
+.plan .res span{display:block;font-size:11px;opacity:.7}
+.plan .res b{font-family:var(--serif);font-size:20px;font-weight:500}
+.slider{display:flex;gap:10px;align-items:center}
+.slider input[type=range]{flex:1;accent-color:var(--gold)}
+.slider .inp{width:76px;flex:none}
+details{margin-top:6px}
+details summary{cursor:pointer;font-size:13px;color:var(--gold-t);font-weight:600;padding:4px 0}
+.plan.dark details summary{color:var(--gold)}
+.warn{background:#FFF2C8;color:#6E5100;border-radius:8px;padding:8px 10px;font-size:13px;margin-bottom:6px}
+.ok{background:#E7F3EA;color:#1E5E36;border-radius:8px;padding:8px 10px;font-size:13px}
+.dec{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.dec button{text-align:left;border:1px solid var(--sand);background:#fff;border-radius:10px;padding:10px}
+.dec button b{display:block;font-size:13px}
+.dec button span{font-size:12px;color:var(--muted)}
+.dec button.on{border:2px solid var(--ink);background:#F4F4F4}
+.nav{position:fixed;left:0;bottom:0;width:min(540px,100%);display:flex;gap:8px;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:var(--cream);border-top:1px solid var(--line);z-index:15}
+.nav .btn{flex:1;height:46px}
+.pvpane{position:sticky;top:56px;height:calc(100vh - 56px);overflow:auto;background:#E4DED3;padding:20px}
+.pvbar{display:flex;align-items:center;gap:8px;margin:0 auto 12px;max-width:794px;font-size:12px;color:var(--muted)}
+.pvbar .sp{flex:1}
+#pv .page{margin:0 auto 18px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.only-m{display:none}
+@media (max-width:999px){
+  .ed{grid-template-columns:1fr}
+  .form{border-right:0}
+  .pvpane{display:none;position:static;height:auto;padding:12px 0 120px;background:transparent}
+  .ed.s4 .pvpane{display:block}
+  .ed.s4 .form{padding-bottom:0}
+  .only-m{display:block}
+  .hide-m{display:none}
+  .top .save{display:none}
+}
+@media (max-width:480px){
+  .cc-b{grid-template-columns:1fr}
+  .cc-b .photo{height:110px}
+  .cc .row{--n:2!important}
+}
+
+/* ---------- report pages ---------- */
+.page{width:794px;height:1123px;position:relative;overflow:hidden;background:var(--cream);font-family:"Noto Sans Thai","Inter",sans-serif;color:#1F2A27;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pg-in{position:absolute;inset:0;padding:60px 60px 0;display:flex;flex-direction:column}
+.ph{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line);font-family:Inter,sans-serif;font-size:11px;letter-spacing:.2em;font-weight:700}
+.ph .b{height:36px;display:block}
+.ph .c{color:#7A7F7A;font-weight:600}
+.kick{font-family:var(--serif);font-style:italic;color:var(--gold-t);font-size:17px;margin-top:30px}
+.pt{font-family:var(--serif);font-weight:500;font-size:46px;line-height:1.1;color:var(--ink);margin:6px 0 0;letter-spacing:-.01em}
+.rule{width:60px;height:4px;border-radius:2px;background:var(--gold);margin:20px 0 26px}
+.psub{font-size:12.5px;color:#5A605B;margin:0 0 26px}
+.lab{font-family:Inter,"Noto Sans Thai",sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;color:#5F6560;text-transform:uppercase}
+.lab.g{color:var(--gold)} .lab.gt{color:var(--gold-t)}
+.num{font-family:var(--serif)}
+.pf{position:absolute;left:60px;right:60px;bottom:28px;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;font-family:Inter,sans-serif;font-size:10px;letter-spacing:.2em;font-weight:600;color:#6F746F}
+.pnote{position:absolute;left:60px;right:60px;bottom:66px;font-size:10.5px;color:#6F746F;display:flex;gap:28px;flex-wrap:wrap}
+.pnote b{font-weight:500;color:#1F2A27}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:8px;text-align:center;padding:16px 4px 12px}
+.tile b{display:block;font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ink)}
+.tile span{display:block;font-family:Inter,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.16em;color:#6F746F;margin-top:6px}
+.ph-img{background:var(--beige) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;font-size:10px;letter-spacing:.2em;color:#A99F8D}
+.rtag{display:inline-block;font-family:Inter,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.1em;padding:4px 6px;border-radius:4px;margin:0 4px 4px 0}
+.t-last{background:var(--gold);color:var(--ink)}
+.t-comp{background:#ECE5D7;color:#6A5F4B}
+.t-lower,.t-best{background:#E5F1E4;color:#2F6B2A}
+.t-high{background:#EEE4F3;color:#6A3C86}
+.t-close{background:#E3EDFA;color:#25528C}
+.neg{color:var(--green)} .pos{color:var(--red)}
+
+/* cover */
+.cover{background:var(--ink);color:#fff;display:flex;flex-direction:column;padding:66px 60px 62px}
+.cover .clogo{flex:1;display:flex;align-items:center;justify-content:center}
+.cover .clogo img{width:300px;height:auto;display:block}
+.cover .frame{position:absolute;inset:34px;border:1px solid rgba(252,179,24,.3);pointer-events:none;z-index:3}
+.cover .ctop{display:flex;justify-content:flex-end;position:relative;z-index:2}
+.cover .cr{text-align:right;font-family:Inter,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.24em;line-height:1.9;color:var(--gold)}
+.cover .cbot{position:relative}
+.cover .ck{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:18px}
+.cover .ctitle{font-family:"Noto Sans Thai",sans-serif;font-weight:500;line-height:1.18;margin:14px 0 22px;letter-spacing:-.005em}
+.cover .cmeta{font-family:Inter,"Noto Sans Thai",sans-serif;font-size:11px;letter-spacing:.08em;color:#C8C8C8}
+.cover .cst{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #444444;border-bottom:1px solid #444444;margin-top:30px}
+.cover .cst>div{padding:20px 16px 18px}
+.cover .cst>div+div{border-left:1px solid #444444}
+.cover .cst b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;margin-top:10px}
+.cover .cfo{display:flex;justify-content:space-between;margin-top:22px;font-family:Inter,"Noto Sans Thai",sans-serif;font-size:10px;letter-spacing:.16em;color:#9A9A9A}
+
+/* p2 */
+.p2{display:grid;grid-template-columns:1fr 268px;gap:34px;align-items:start}
+.p2 .ov{font-size:13.5px;line-height:1.75;margin:8px 0 24px}
+.obj{background:#FFF5DB;border:1px solid #F1DFA9;border-radius:10px;padding:18px 22px;margin-top:26px}
+.obj p{margin:8px 0 0;font-size:13.5px;line-height:1.7}
+.psum{background:var(--ink);color:#fff;border-radius:10px;padding:30px 24px 26px}
+.psum .big{font-family:var(--serif);color:var(--gold);font-size:36px;margin:4px 0 16px}
+.psum .r{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #3D3D3D;padding:14px 0}
+.psum .r span{font-family:Inter,sans-serif;font-size:10.5px;letter-spacing:.1em;color:#BDBDBD}
+.psum .r b{font-family:var(--serif);font-weight:400;font-size:17px}
+.psum small{display:block;border-top:1px solid #3D3D3D;padding-top:14px;font-size:9.5px;color:#9A9A9A;line-height:1.5}
+.p2 .mph{height:220px;border-radius:10px;margin-top:22px}
+
+/* p3 */
+.bars{display:grid;grid-template-columns:200px 1fr 60px;gap:11px 12px;align-items:center;font-size:11.5px;margin:14px 0 46px}
+.bars .tr{height:19px;border-radius:5px;background:#EFEAE0;overflow:hidden}
+.bars .fl{height:100%;border-radius:5px;background:var(--sand)}
+.bars .fl.main{background:var(--ink)} .bars .fl.last{background:var(--gold)}
+.bars .v{text-align:right;font-family:var(--serif);font-weight:600;font-size:12px}
+.bars .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{font-family:Inter,sans-serif;font-size:9.5px;letter-spacing:.14em;color:#6F746F;font-weight:700;text-align:left;padding:0 8px 12px;border-bottom:3px solid var(--ink)}
+.tbl td{padding:12px 8px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right}
+.tbl tr.last td{background:#FCEFD3}
+
+/* p4 */
+.mainc{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:400px}
+.mainc .ph-img{height:100%}
+.mainc .info{padding:26px 24px 22px 28px}
+.mainc .nm{font-size:22px;font-weight:500;line-height:1.3;margin:6px 0 10px;color:var(--ink)}
+.mainc .pr{font-family:var(--serif);font-size:38px;color:var(--ink);line-height:1}
+.mainc .meta{font-size:11px;color:#5A605B;line-height:1.7;margin:12px 0 14px}
+.mainc .tiles{gap:8px}
+.mainc .tile{padding:10px 2px 8px}
+.compg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:14px}
+.comp{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.comp .ph-img{height:110px;font-size:8.5px}
+.comp .in{padding:12px 14px 14px}
+.comp .nm{font-weight:600;font-size:12.5px;margin:2px 0 10px;color:var(--ink)}
+.comp .pr{font-family:var(--serif);font-size:21px;color:var(--ink)}
+.comp .gap{font-size:10px;color:#5A605B;margin-top:8px;line-height:1.5}
+.comp .gap b{font-weight:700}
+
+/* p5 */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 14px 12px}
+.sc .lab{font-size:8.5px;letter-spacing:.14em}
+.sc b{display:block;font-family:var(--serif);font-weight:500;font-size:21px;color:var(--ink);margin-top:8px}
+.bench{background:var(--ink);color:#fff;border-radius:10px;border-top:6px solid var(--gold);padding:20px 28px;margin:18px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.bench .v{font-family:var(--serif);font-size:50px;line-height:1;margin-top:12px}
+.bench p{max-width:300px;text-align:right;font-size:10.5px;color:#BDBDBD;margin:0;line-height:1.6}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.pc{border:1px solid var(--line);border-radius:10px;background:#fff;padding:20px 22px 18px}
+.pc.d{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pc h2{font-family:var(--serif);font-weight:500;font-size:25px;margin:8px 0 2px}
+.pc .sub{font-size:10.5px;color:#6F746F}
+.pc.d .sub{color:#A8A8A8}
+.pc .pv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 12px}
+.pc .pv b{display:block;font-family:var(--serif);font-weight:500;font-size:21px;margin-top:4px}
+.pc .lab{font-size:8px;letter-spacing:.12em}
+.pc.d .lab{color:#C8C8C8}
+.pc ol{list-style:none;padding:0;margin:0}
+.pc li{display:flex;gap:9px;font-size:10.5px;line-height:1.6;margin-bottom:8px}
+.pc li i{flex:none;width:15px;height:15px;border-radius:50%;background:var(--gold);color:var(--ink);font-style:normal;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.pc .gain{background:#F2EEE6;border-radius:8px;padding:10px 12px;font-size:10.5px;line-height:1.6;margin-top:12px}
+.pc.d .gain{background:#383838}
+.pc .gain b{color:var(--gold-t);font-weight:600}
+.pc.d .gain b{color:var(--gold)}
+
+/* p6 */
+.qt{border-left:3px solid var(--gold);padding:2px 0 2px 22px;font-size:12px;font-style:italic;margin-bottom:14px}
+.box{background:#FCFAF5;border:1px solid var(--line);border-radius:10px;padding:22px}
+.box .cap{font-size:10.5px;color:#5A605B;margin-top:6px}
+.decg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.decg div{border:1px solid var(--sand);border-radius:8px;padding:12px;font-size:11px;font-weight:600;color:var(--ink)}
+.decg div.on{border:2px solid var(--ink);background:#fff}
+.decg i{display:inline-block;width:10px;height:10px;border:2px solid var(--gold-t);border-radius:50%;margin-right:7px;vertical-align:-1px}
+.decg div.on i{background:var(--ink);border-color:var(--ink);box-shadow:inset 0 0 0 2px #fff}
+.decg span{display:block;font-weight:500;font-size:9.5px;color:#5A605B;margin-top:4px}
+.decnote{font-size:11px;color:#5A605B;margin-top:12px}
+
+/* ---------- print ---------- */
+#print{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff}
+  #app{display:none!important}
+  #print{display:block}
+  #print .page{break-after:page;page-break-after:always;margin:0;box-shadow:none}
+  #print .page:last-child{break-after:auto;page-break-after:auto}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="print"></div>
+<input type="file" id="importFile" accept="application/json" hidden>
+<script>
+"use strict";
+/* ================= helpers ================= */
+const $=(q,el=document)=>el.querySelector(q);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=n=>Number.isFinite(n)&&n!==0?Math.round(n).toLocaleString("en-US"):"—";
+const fmtIn=n=>n?Number(n).toLocaleString("en-US",{maximumFractionDigits:2}):"";
+const sgn=n=>(n>0?"+":n<0?"−":"")+Math.abs(Math.round(n)).toLocaleString("en-US");
+const pctS=x=>x==null||!Number.isFinite(x)?"—":(x>0?"+":x<0?"-":"")+Math.abs(x*100).toFixed(1)+"%";
+const M=n=>(n/1e6).toFixed(2)+"M";
+const median=a=>{a=a.filter(x=>Number.isFinite(x)&&x>0).sort((x,y)=>x-y);if(!a.length)return 0;const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2};
+const pad=n=>String(n).padStart(2,"0");
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+const today=()=>new Date().toISOString().slice(0,10);
+const round10k=n=>Math.round(n/10000)*10000;
+
+const TYPES=[["House","บ้านเดี่ยว"],["Townhome","ทาวน์โฮม"],["Condo","คอนโด"],["Land","ที่ดิน"],["Commercial","อาคารพาณิชย์"]];
+const OBJ_CHIPS=["ต้องการขายเพื่อย้ายไปบ้านหลังใหม่","ต้องการปิดการขายภายในกรอบเวลาที่กำหนด","ต้องการลดภาระค่าใช้จ่าย","ต้องการนำเงินไปใช้ลงทุน","ทรัพย์มรดก ต้องการแบ่งให้ทายาท"];
+const STATUS={draft:"ร่าง",sent:"ส่งเจ้าของแล้ว",a:"อนุมัติแผน A",b:"อนุมัติแผน B",rev:"ขอแก้ไข"};
+
+function defaultPlans(){return [
+  {days:90,pct:15,en:"Balance value and opportunity",sub:"รักษาคุณค่าและโอกาสของทรัพย์",short:"ราคาดีที่สุด",
+   points:["ช่วยรักษาราคาของคุณให้ดีที่สุดเท่าที่ตลาดรองรับ เราวางราคาให้ใกล้ระดับที่ผู้ซื้อยอมรับ โดยไม่ลดมากเกินความจำเป็น","ให้เวลาค้นหาผู้ซื้อที่เห็นคุณค่าของทรัพย์จริง ๆ HOME จะช่วยทำการตลาด คัดกรอง และนำเสนอจุดเด่นของทรัพย์ให้เต็มที่","ช่วยให้คุณตัดสินใจจากข้อมูลจริง เราจะนำผลตอบรับ การนัดชม และข้อเสนอที่เกิดขึ้น มาปรับแผนร่วมกับคุณอย่างมีเหตุผล"],
+   gain:"โอกาสรักษาราคา พร้อมมีแผนและกรอบเวลาที่ชัดเจน โดยไม่ต้องปล่อยทรัพย์ค้างตลาดอย่างไร้ทิศทาง"},
+  {days:30,pct:30,en:"Create urgency and accelerate",sub:"เร่งการขายและลดภาระ",short:"ปิดเร็ว",
+   points:["ช่วยให้ทรัพย์ของคุณโดดเด่นและได้รับความสนใจเร็วขึ้น ราคาที่แข่งขันได้ช่วยเพิ่มโอกาสในการติดต่อ นัดชม และได้รับข้อเสนอ","ช่วยลดเวลาที่คุณต้องรอ กลยุทธ์นี้ออกแบบมาเพื่อลดความเสี่ยงที่ทรัพย์จะค้างตลาด และลดความไม่แน่นอนในการขาย","ช่วยให้คุณเดินหน้าสู่เป้าหมายถัดไปได้เร็วขึ้น ไม่ว่าจะเป็นการลดภาระ ใช้เงินทุน ย้ายบ้าน หรือเริ่มแผนใหม่ เราจะช่วยให้การขายพาคุณไปถึงจุดนั้นเร็วขึ้น"],
+   gain:"แผนที่ให้ความสำคัญกับความเร็ว ความชัดเจน และการลดภาระที่คุณกำลังแบกรับ"}
+]}
+const DEFAULT_QUOTES=["การปรับราคาไม่ใช่การลดคุณค่าของทรัพย์ แต่คือการพาทรัพย์ของคุณไปอยู่ในจุดที่ตลาดพร้อมตัดสินใจ","ไม่ว่าคุณจะเลือก {a} วันหรือ {b} วัน HOME จะอยู่ข้างคุณเพื่อเป้าหมายเดียวกัน : ขายให้ได้จริง ภายใต้เงื่อนไขที่เหมาะกับคุณที่สุด"];
+
+function blank(code){return{
+  id:uid(),code,created:Date.now(),updated:Date.now(),status:"draft",
+  name:"",type:"House",consultant:"",date:today(),hero:"",photo:"",
+  rai:0,ngan:0,wa:0,sqm:0,bed:0,bath:0,floor:0,parking:0,
+  asking:0,net:0,timeframe:90,objective:"",
+  comps:[],base:"last",plans:defaultPlans(),quotes:DEFAULT_QUOTES.slice(),
+  pages:{p3:true,p4:true},decision:"",decisionNote:"",decisionDate:""
+}}
+function blankComp(ref){return{id:uid(),ref:ref||"comp",name:"",price:0,sqm:0,sqw:0,bed:0,bath:0,photo:"",show:true}}
+function sample(code){const s=blank(code);Object.assign(s,{
+  name:"บ้านกลางเมือง พระราม 9",type:"House",wa:60,sqm:240,bed:3,bath:3,floor:2,parking:2,
+  asking:10500000,net:10000000,timeframe:90,date:"2026-06-22",
+  objective:"ต้องการขายเพื่อย้ายไปบ้านหลังใหม่ และต้องการปิดการขายภายในกรอบเวลาที่กำหนด",
+  comps:[
+    Object.assign(blankComp("last"),{name:"บ้านกลางเมือง พระราม 9 หลัง A",price:10000000,sqm:240,sqw:60,bed:3,bath:3}),
+    Object.assign(blankComp(),{name:"บ้านคู่แข่ง B",price:11500000,sqm:248,sqw:65,bed:3,bath:3}),
+    Object.assign(blankComp(),{name:"บ้านคู่แข่ง C",price:10800000,sqm:232,sqw:58,bed:3,bath:3})
+  ]});return s}
+
+/* ================= storage (IndexedDB) ================= */
+const DB={db:null,
+  open(){return new Promise((res,rej)=>{const q=indexedDB.open("home-market-survey",1);q.onupgradeneeded=()=>q.result.createObjectStore("surveys",{keyPath:"id"});q.onsuccess=()=>{this.db=q.result;res()};q.onerror=()=>rej(q.error)})},
+  tx(mode,fn){return new Promise((res,rej)=>{if(!this.db)return res(mode==="readonly"?[]:null);const t=this.db.transaction("surveys",mode);const st=t.objectStore("surveys");const r=fn(st);t.oncomplete=()=>res(r&&r.result);t.onerror=()=>rej(t.error)})},
+  all(){return this.tx("readonly",s=>s.getAll())},
+  put(v){return this.tx("readwrite",s=>s.put(v))},
+  del(id){return this.tx("readwrite",s=>s.delete(id))}
+};
+
+/* ================= state ================= */
+let surveys=[],cur=null,step=1,saveT=null,rT=null,query="";
+const app=$("#app");
+
+function nextCode(){const n=surveys.reduce((m,s)=>Math.max(m,+(String(s.code).match(/\d+/)||[0])[0]),0)+1;return"HOME-"+String(n).padStart(4,"0")}
+function getP(p){return p.split(".").reduce((o,k)=>o==null?o:o[k],cur)}
+function setP(p,v){const ks=p.split(".");const last=ks.pop();ks.reduce((o,k)=>o[k],cur)[last]=v}
+function save(){clearTimeout(saveT);const el=$("#saveSt");if(el)el.textContent="กำลังบันทึก…";saveT=setTimeout(async()=>{cur.updated=Date.now();try{await DB.put(cur);const e=$("#saveSt");if(e)e.textContent="บันทึกแล้ว "+new Date().toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"})}catch(err){alert("บันทึกไม่สำเร็จ: "+err.message)}},350)}
+function changed(){save();clearTimeout(rT);rT=setTimeout(()=>{renderPreview();updateOuts()},60)}
+
+/* ================= calculations ================= */
+function calc(s){
+  const land=(+s.rai||0)*400+(+s.ngan||0)*100+(+s.wa||0);
+  const ppw=land&&s.asking?s.asking/land:0, ppm=s.sqm&&s.asking?s.asking/s.sqm:0;
+  const comps=s.comps.map((x,i)=>({...x,i,ppm:x.sqm&&x.price?x.price/x.sqm:0,ppw:x.sqw&&x.price?x.price/x.sqw:0,
+    delta:s.asking&&x.price?x.price/s.asking-1:null,gap:x.price-s.asking,tags:[]}));
+  const valid=comps.filter(x=>x.price>0);
+  const last=valid.filter(x=>x.ref==="last");
+  const lastMed=median(last.map(x=>x.price));
+  const prices=valid.map(x=>x.price);
+  const medComp=median(prices),lo=prices.length?Math.min(...prices):0,hi=prices.length?Math.max(...prices):0;
+  const medPpm=median(valid.map(x=>x.ppm));
+  const pick=(arr,f)=>arr.length?arr.reduce((a,b)=>f(b)<f(a)?b:a):null;
+  last.forEach(x=>x.tags.push(["LAST MATCH","t-last"]));
+  if(s.asking){
+    const low=pick(valid,x=>x.price); if(low&&low.price<s.asking)low.tags.push(["LOWER ASKING","t-lower"]);
+    if(valid.length>1){const h=pick(valid,x=>-x.price);if(h.price>s.asking)h.tags.push(["HIGHEST ASKING","t-high"])}
+    const cl=pick(valid,x=>Math.abs(x.gap)); if(cl&&valid.length>1&&!cl.tags.some(t=>t[0]==="LOWER ASKING"))cl.tags.push(["CLOSEST MATCH","t-close"]);
+  }
+  const bm=pick(valid.filter(x=>x.ppm),x=>x.ppm); if(bm&&valid.length>1)bm.tags.push(["BEST / SQ.M.","t-best"]);
+  const bw=pick(valid.filter(x=>x.ppw),x=>x.ppw); if(bw&&valid.length>1)bw.tags.push(["BEST / SQ.W.","t-best"]);
+  const baseVal=s.base==="asking"?s.asking:s.base==="median"?medComp:lastMed;
+  const spread=s.net?s.asking-s.net:0;
+  const plans=s.plans.map(p=>{const up=baseVal?round10k(baseVal*(1-(+p.pct||0)/100)):0;return{...p,up,est:up?up-spread:0}});
+  return{land,ppw,ppm,comps,valid,last,lastMed,medComp,lo,hi,medPpm,baseVal,spread,plans,bestPpm:bm};
+}
+const baseLabel={last:"Last match · market benchmark",asking:"Asking price · benchmark",median:"Median comparable · benchmark"};
+const baseText={last:"ค่ามัธยฐานจากแถวที่กำหนดเป็น Last Match ใช้เป็นฐานในการวางกลยุทธ์ราคา",asking:"ใช้ราคาเสนอขาย (Asking) เป็นฐานในการวางกลยุทธ์ราคา",median:"ค่ามัธยฐานของทรัพย์เปรียบเทียบทั้งหมด ใช้เป็นฐานในการวางกลยุทธ์ราคา"};
+
+/* ================= report template ================= */
+const img=(src,label,cls="")=>`<div class="ph-img ${cls}" style="${src?`background-image:url('${src}')`:""}">${src?"":label}</div>`;
+const pHead=s=>`<div class="ph"><img class="b" src="assets/logo-horizontal.svg" alt="HOME Real Estate"><div class="c">${esc(s.code)} · MARKET SURVEY</div></div>`;
+const pFoot=(n,t)=>`<div class="pf"><span>HOME · MARKET SURVEY · CONFIDENTIAL</span><span>PAGE ${pad(n)} / ${pad(t)}</span></div>`;
+const pTitle=(no,kick,h,sub)=>`<div class="kick">${pad(no)} — ${kick}</div><h1 class="pt">${h}</h1><div class="rule"></div><p class="psub">${sub}</p>`;
+const tiles=(s,c)=>`<div class="tiles">${[[c.land||"—","SQ.W."],[s.sqm||"—","SQ.M."],[s.bed,"BEDROOM"],[s.bath,"BATHROOM"],[s.floor,"FLOOR"],[s.parking,"PARKING"]].map(([v,l])=>`<div class="tile"><b>${typeof v==="number"?v.toLocaleString("en-US"):v}</b><span>${l}</span></div>`).join("")}</div>`;
+
+function pgCover(s,c){
+  const n=(s.name||"ชื่อทรัพย์").length, fs=n>40?42:n>24?52:64;
+  return`<section class="page cover">
+  <div class="frame"></div>
+  <div class="ctop"><div class="cr">MARKET SURVEY<br>CONFIDENTIAL — PREPARED FOR OWNER</div></div>
+  <div class="clogo"><img src="assets/logo-stacked-white.svg" alt="HOME Real Estate"></div>
+  <div class="cbot">
+    <div class="ck">Comparative Market Survey</div>
+    <h1 class="ctitle" style="font-size:${fs}px">${esc(s.name||"ชื่อทรัพย์")}</h1>
+    <div class="cmeta">${esc(s.code)}  ·  ${esc(s.type.toUpperCase())}</div>
+    <div class="cst">
+      <div><span class="lab g">Asking price</span><b>${fmt(s.asking)}</b></div>
+      <div><span class="lab g">Last match</span><b>${fmt(c.lastMed)}</b></div>
+      <div><span class="lab g">Selling timeframe</span><b>${s.timeframe?s.timeframe+" Days":"—"}</b></div>
+    </div>
+    <div class="cfo"><span>PREPARED BY ${esc((s.consultant||"HOME CONSULTANT").toUpperCase())} · ราคาเป็นบาท (THB)</span><span>${esc(s.date)}</span></div>
+  </div></section>`}
+
+function overview(s,c){
+  const t=TYPES.find(x=>x[0]===s.type);
+  let o=`ทรัพย์ประเภท ${esc(s.type)}`;
+  if(s.bed)o+=` ${s.bed} ห้องนอน`; if(s.bath)o+=` ${s.bath} ห้องน้ำ`;
+  if(s.sqm)o+=` พื้นที่ใช้สอย ${fmt(s.sqm)} ตร.ม.`;
+  if(c.land)o+=` บนที่ดิน ${+s.rai||0} ไร่ ${+s.ngan||0} งาน ${+s.wa||0} ตร.ว.`;
+  if(s.asking)o+=` ตั้งราคาเสนอขายที่ ${fmt(s.asking)} บาท`;
+  return o}
+
+function pgInfo(s,c,no,n,t){return`<section class="page"><div class="pg-in">${pHead(s)}
+  ${pTitle(no,"Information","Property Information","ภาพรวมทรัพย์ เป้าหมายของเจ้าของ และสรุปราคา · Overview, seller objective and pricing summary.")}
+  <div class="p2"><div>
+    <div class="lab">Property overview</div><p class="ov">${overview(s,c)}</p>
+    ${tiles(s,c)}
+    ${s.objective?`<div class="obj"><div class="lab gt">Seller objective · เป้าหมายของเจ้าของ</div><p>${esc(s.objective)}</p></div>`:""}
+    ${s.photo?img(s.photo,"","mph"):""}
+  </div>
+  <div class="psum">
+    <div class="lab g">Pricing summary · ราคา (บาท)</div>
+    <div style="font-size:10.5px;letter-spacing:.1em;color:#BDBDBD;margin-top:16px;font-family:Inter">ASKING PRICE</div>
+    <div class="big">${fmt(s.asking)}</div>
+    <div class="r"><span>NET PRICE</span><b>${fmt(s.net)}</b></div>
+    <div class="r"><span>PRICE / SQ.W.</span><b>${fmt(c.ppw)}</b></div>
+    <div class="r"><span>PRICE / SQ.M.</span><b>${fmt(c.ppm)}</b></div>
+    <div class="r"><span>LAST MATCH</span><b>${fmt(c.lastMed)}</b></div>
+    <small>ราคาต่อหน่วยพื้นที่คำนวณจาก Asking Price หารด้วยพื้นที่</small>
+  </div></div>
+  </div>${pFoot(n,t)}</section>`}
+
+function pgMarket(s,c,no,n,t){
+  const rows=[{name:"Main Property",ppm:c.ppm,cls:"main"},...c.valid.slice(0,10).map(x=>({name:x.name||"—",ppm:x.ppm,cls:x.ref==="last"?"last":""}))];
+  const mx=Math.max(...rows.map(r=>r.ppm),1);
+  return`<section class="page"><div class="pg-in">${pHead(s)}
+  ${pTitle(no,"Market Survey","Market Comparison","เปรียบเทียบราคาตลาดแบบเข้าใจง่าย · A clear read on comparable market pricing.")}
+  <div class="lab">Price / sq.m. comparison · <span style="letter-spacing:0">บาท</span></div>
+  <div class="bars">${rows.map(r=>`<div class="nm">${esc(r.name)}</div><div class="tr"><div class="fl ${r.cls}" style="width:${(r.ppm/mx*100).toFixed(1)}%"></div></div><div class="v">${fmt(r.ppm)}</div>`).join("")}</div>
+  ${c.valid.length?`<table class="tbl"><thead><tr><th style="width:44px" class="r">NO.</th><th style="width:120px">REFERENCE</th><th>PROPERTY</th><th class="r">PRICE (THB)</th><th class="r">/ SQ.M. (THB)</th><th class="r">Δ VS MAIN</th></tr></thead><tbody>
+  ${c.valid.slice(0,14).map((x,k)=>`<tr class="${x.ref==="last"?"last":""}"><td class="r">${k+1}</td><td><span class="rtag ${x.ref==="last"?"t-last":"t-comp"}" style="margin:0">${x.ref==="last"?"LAST MATCH":"COMPETITOR"}</span></td><td>${esc(x.name)}</td><td class="r num">${fmt(x.price)}</td><td class="r">${fmt(x.ppm)}</td><td class="r">${pctS(x.delta)}</td></tr>`).join("")}
+  </tbody></table>`:`<div class="box" style="text-align:center;color:#8E836F">ยังไม่มีทรัพย์เปรียบเทียบ</div>`}
+  </div>
+  <div class="pnote"><span>Last Match rows highlighted.</span><span>Median Last Match: <b class="num">${fmt(c.lastMed)}</b> บาท</span>${c.bestPpm?`<span>Best /Sq.m.: <b>${esc(c.bestPpm.name)}</b></span>`:""}</div>
+  ${pFoot(n,t)}</section>`}
+
+function pgListing(s,c,no,n,t){
+  const feat=c.comps.filter(x=>x.price>0&&x.show!==false).slice(0,3);
+  return`<section class="page"><div class="pg-in">${pHead(s)}
+  ${pTitle(no,"Listing","Listing Comparison","ทรัพย์หลักเทียบกับคู่แข่งหลัก พร้อมส่วนต่างราคาและสเปก · Subject vs key competitors.")}
+  <div class="mainc">${img(s.photo||s.hero,"MAIN PROPERTY PHOTO")}
+    <div class="info"><div style="font-family:var(--serif);font-style:italic;color:var(--gold-t);font-size:14px">Main Property</div>
+      <div class="nm">${esc(s.name||"—")}</div><div class="pr">${fmt(s.asking)}</div>
+      <div class="meta">${esc(s.code)} · ${esc(s.type)}<br>Price / Sq.w. ${fmt(c.ppw)} · Price / Sq.m. ${fmt(c.ppm)} (บาท)</div>
+      ${tiles(s,c)}</div></div>
+  <div class="lab" style="margin-top:26px">Key competitors</div>
+  <div class="compg">${feat.map(x=>{const dp=x.ppm&&c.ppm?x.ppm-c.ppm:null;const cl=v=>v<0?"neg":v>0?"pos":"";
+    return`<div class="comp">${img(x.photo,"COMPETITOR PHOTO")}<div class="in">
+      <div>${x.tags.map(([l,k])=>`<span class="rtag ${k}">${l}</span>`).join("")}</div>
+      <div class="nm">${esc(x.name||"—")}</div><div class="pr">${fmt(x.price)}</div>
+      <div class="gap">Price gap: <b class="${cl(x.gap)}">${sgn(x.gap)} (${pctS(x.delta)})</b><br>${x.sqm?fmt(x.sqm)+" Sq.m. · ":""}${x.bed||"-"}/${x.bath||"-"}${dp!=null?` · /Sq.m. <b class="${cl(dp)}">${sgn(dp)}</b>`:""}</div>
+    </div></div>`}).join("")}</div>
+  </div>${pFoot(n,t)}</section>`}
+
+function planCard(p,dark){return`<div class="pc ${dark?"d":""}">
+  <div class="lab ${dark?"g":"gt"}">${p.days}-Day · ${esc(p.en)}</div>
+  <h2>Under Value ${+p.pct||0}%</h2><div class="sub">${esc(p.sub)}</div>
+  <div class="pv"><div><span class="lab">Update price (บาท)</span><b>${fmt(p.up)}</b></div><div><span class="lab">Estimated net (บาท)</span><b>${fmt(p.est)}</b></div></div>
+  <ol>${p.points.filter(Boolean).map((x,i)=>`<li><i>${i+1}</i><span>${esc(x)}</span></li>`).join("")}</ol>
+  ${p.gain?`<div class="gain"><b>สิ่งที่คุณได้รับ:</b> ${esc(p.gain)}</div>`:""}</div>`}
+
+function pgSummary(s,c,no,n,t){
+  const st=[["Asking",s.asking],["Net",s.net],["Last match",c.lastMed],["Median comp.",c.medComp],["Lowest",c.lo],["Highest",c.hi],["Median /sq.m.",c.medPpm],["Comparisons",c.valid.length]];
+  return`<section class="page"><div class="pg-in">${pHead(s)}
+  ${pTitle(no,"Summary &amp; Strategy","Summary &amp; Strategy","สรุปอัตโนมัติและกลยุทธ์ราคา · Auto summary and pricing strategy.")}
+  <div style="font-size:10px;font-weight:600;color:#5A605B;margin:-10px 0 10px">ทุกราคาเป็นสกุลเงินบาท (THB)</div>
+  <div class="sg">${st.map(([l,v])=>`<div class="sc"><div class="lab">${l}</div><b>${l==="Comparisons"?v:fmt(v)}</b></div>`).join("")}</div>
+  <div class="bench"><div><div class="lab g">${baseLabel[s.base]} <span style="letter-spacing:.05em">(บาท)</span></div><div class="v">${fmt(c.baseVal)}</div></div><p>${baseText[s.base]}</p></div>
+  <div class="plans">${planCard(c.plans[0],false)}${planCard(c.plans[1],true)}</div>
+  </div>${pFoot(n,t)}</section>`}
+
+function chartSVG(s,c){
+  const A=c.plans[0],B=c.plans[1];
+  const pts=[{x:B.days,y:B.up,n:B.days+"-Day",f:"#FCB318"},{x:A.days,y:A.up,n:A.days+"-Day",f:"#292929"}];
+  const maxD=Math.max(+A.days||0,+B.days||0,30);
+  if(s.asking)pts.push({x:maxD+30,y:s.asking,n:"Asking",f:"#9AA09B",note:"ไม่มีกรอบเวลา · สมมติฐาน"});
+  const P=pts.filter(p=>p.y>0);
+  if(P.length<2)return`<div style="height:200px;display:flex;align-items:center;justify-content:center;color:#8E836F;font-size:12px">กรอกราคาและคู่เทียบเพื่อสร้างกราฟ</div>`;
+  const W=674,H=270,L=58,R=30,T=44,Bm=46,xMax=Math.ceil((maxD+60)/30)*30;
+  const ys=P.map(p=>p.y);let y0=Math.min(...ys)*.9,y1=Math.max(...ys)*1.05;
+  const X=d=>L+d/xMax*(W-L-R),Y=v=>T+(1-(v-y0)/(y1-y0))*(H-T-Bm);
+  let g="";
+  for(let d=0;d<=xMax;d+=30)g+=`<line x1="${X(d)}" x2="${X(d)}" y1="${T-10}" y2="${H-Bm}" stroke="#E7E0D3"/><text x="${X(d)}" y="${H-Bm+18}" text-anchor="middle" font-size="11" fill="#8A8F8A">${d}d</text>`;
+  [y0,(y0+y1)/2,y1].forEach(v=>g+=`<text x="${L-10}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="#8A8F8A">${(v/1e6).toFixed(1)}M</text>`);
+  g+=`<line x1="${L}" x2="${L}" y1="${T-10}" y2="${H-Bm}" stroke="#CFC6B6"/>`;
+  g+=`<text x="0" y="12" font-size="10.5" fill="#8A8F8A">ราคา (บาท)</text><text x="${W}" y="${H-6}" text-anchor="end" font-size="10.5" fill="#8A8F8A">ระยะเวลาขาย (วัน) →</text>`;
+  const S=[...P].sort((a,b)=>a.x-b.x);
+  g+=`<polyline points="${S.map(p=>X(p.x)+","+Y(p.y)).join(" ")}" fill="none" stroke="#C9AF7C" stroke-width="2" stroke-dasharray="5 4"/>`;
+  P.forEach(p=>{const x=X(p.x),y=Y(p.y);g+=`<circle cx="${x}" cy="${y}" r="7" fill="${p.f}"/><text x="${x}" y="${y-14}" text-anchor="middle" font-size="12.5" font-weight="600" fill="#16201E">${p.n}</text><text x="${x}" y="${y+22}" text-anchor="middle" font-size="11.5" fill="#5A605B">${M(p.y)}</text>${p.note?`<text x="${x}" y="${y+37}" text-anchor="middle" font-size="9.5" fill="#9AA09B">${p.note}</text>`:""}`});
+  return`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;font-family:Inter,'Noto Sans Thai',sans-serif">${g}</svg>`}
+
+function pgDecision(s,c,no,n,t){
+  const A=c.plans[0],B=c.plans[1];
+  const q=x=>esc(x).replace(/\{a\}/g,A.days).replace(/\{b\}/g,B.days);
+  const opts=[["a",`Approve ${A.days}-Day`,`${A.short} ~${A.days} วัน`],["b",`Approve ${B.days}-Day`,`${B.short} ~${B.days} วัน`],["rev","Request Revision","ปรับแผน"],["none","Not Decided","พิจารณาภายหลัง"]];
+  return`<section class="page"><div class="pg-in">${pHead(s)}
+  ${pTitle(no,"Decision","Strategy &amp; Decision","แนวทางการตัดสินใจของเจ้าของ · Owner-centered guidance and decision.")}
+  ${s.quotes.filter(Boolean).map(x=>`<div class="qt">“${q(x)}”</div>`).join("")}
+  <div class="box" style="margin-top:20px"><div class="lab" style="margin-bottom:14px">Price vs time-to-sale</div>${chartSVG(s,c)}
+    <div class="cap">ราคาที่แข่งขันมากขึ้นมีแนวโน้มช่วยให้เข้าถึงเป้าหมายการขายได้เร็วขึ้น ทั้งนี้ระยะเวลาจริงขึ้นอยู่กับสภาพตลาด ความต้องการของผู้ซื้อ สภาพทรัพย์ และการเจรจา</div></div>
+  <div class="box" style="margin-top:20px"><div class="lab">Owner decision</div>
+    <div class="decg">${opts.map(([k,a,b])=>`<div class="${s.decision===k?"on":""}"><i></i>${a}<span>${b}</span></div>`).join("")}</div>
+    ${s.decision&&(s.decisionNote||s.decisionDate)?`<div class="decnote">${s.decisionDate?`วันที่ ${esc(s.decisionDate)} · `:""}${esc(s.decisionNote)}</div>`:""}</div>
+  </div>
+  <div class="pnote">Estimated Net หักส่วนต่างเดิมระหว่าง Asking และ Net (${fmt(c.spread)} บาท) ออกจาก Update Price · ระยะเวลาเป็นการประมาณการ ไม่ใช่การรับประกัน</div>
+  ${pFoot(n,t)}</section>`}
+
+function report(s){
+  const c=calc(s);
+  const list=[pgInfo,s.pages.p3!==false&&pgMarket,s.pages.p4!==false&&pgListing,pgSummary,pgDecision].filter(Boolean);
+  const total=list.length+1;
+  return pgCover(s,c)+list.map((f,i)=>f(s,c,i+1,i+2,total)).join("");
+}
+
+/* ================= list view ================= */
+function showList(){
+  cur=null;document.title="HOME Market Survey";
+  const q=query.trim().toLowerCase();
+  const rows=surveys.filter(s=>!q||(s.code+" "+s.name).toLowerCase().includes(q)).sort((a,b)=>b.updated-a.updated);
+  app.innerHTML=`<header class="top"><div class="logo"><img src="assets/logo-horizontal-white.svg" alt="HOME Real Estate"><span class="hide-m">MARKET SURVEY</span></div><div class="sp"></div>
+    <button class="tbtn hide-m" data-act="export">สำรองข้อมูล</button><button class="tbtn hide-m" data-act="import">นำเข้า</button></header>
+  <main class="list">
+    <div class="list-h"><h1>Market survey ของคุณ</h1><input class="search" id="q" placeholder="ค้นหาชื่อทรัพย์หรือรหัส" value="${esc(query)}"><button class="btn gold" data-act="new">+ สร้าง survey ใหม่</button></div>
+    ${surveys.length?`<div class="cards">${rows.map(s=>`<article class="scard">
+      <div class="im" style="${s.photo||s.hero?`background-image:url('${s.photo||s.hero}')`:""}" data-act="open" data-id="${s.id}">${s.photo||s.hero?"":"NO PHOTO"}</div>
+      <div class="bd" data-act="open" data-id="${s.id}"><div class="code">${esc(s.code)} · ${esc(s.type)}</div><div class="nm">${esc(s.name||"(ยังไม่ตั้งชื่อ)")}</div>
+        <div class="pr">${fmt(s.asking)}</div></div>
+      <div class="ft"><span class="badge ${s.status}">${STATUS[s.status]||"ร่าง"}</span><span class="sp"></span>
+        <button class="btn sm ghost" data-act="dup" data-id="${s.id}">ทำสำเนา</button><button class="btn sm ghost danger" data-act="del" data-id="${s.id}">ลบ</button></div>
+    </article>`).join("")||`<div class="empty">ไม่พบรายการที่ค้นหา</div>`}</div>`
+    :`<div class="empty"><h2>เริ่ม survey แรกของคุณ</h2><p>กรอกข้อมูลทรัพย์ คู่เทียบ และกลยุทธ์ แล้ว export เป็น PDF ได้ทันที</p>
+      <p><button class="btn gold" data-act="new">+ สร้าง survey ใหม่</button> <button class="btn" data-act="sample">โหลดตัวอย่าง HOME-0001</button></p></div>`}
+    <p class="only-m" style="text-align:center;margin-top:24px"><button class="btn sm" data-act="export">สำรองข้อมูล</button> <button class="btn sm" data-act="import">นำเข้า</button></p>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:24px">ข้อมูลเก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น · กด "สำรองข้อมูล" เป็นระยะเพื่อกันข้อมูลหาย</p>
+  </main>`;
+  const qi=$("#q");qi.addEventListener("input",()=>{query=qi.value;const p=qi.selectionStart;showList();const n=$("#q");n.focus();n.setSelectionRange(p,p)});
+}
+
+/* ================= editor ================= */
+function openSurvey(s){cur=s;if(!cur.pages)cur.pages={p3:true,p4:true};step=1;renderEditor();window.scrollTo(0,0)}
+function renderEditor(){
+  document.title=`${cur.code} ${cur.name||""} — Market Survey`;
+  app.innerHTML=`<header class="top"><button class="tbtn" data-act="back">‹ รายการ</button><div class="logo hide-m"><img src="assets/logo-horizontal-white.svg" alt="HOME Real Estate"></div>
+    <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px"><b>${esc(cur.code)}</b> <span class="hide-m">${esc(cur.name)}</span></div>
+    <div class="sp"></div><span class="save" id="saveSt">บันทึกแล้ว</span><button class="tbtn gold hide-m" data-act="print">Export PDF</button></header>
+  <div class="ed s${step}"><div class="form" id="form"></div>
+    <aside class="pvpane" id="pvpane"><div class="pvbar"><span>พรีวิว A4</span><span class="sp"></span><span id="pgcount"></span></div><div id="pvwrap"><div id="pv"></div></div></aside></div>`;
+  renderForm();renderPreview();
+}
+function renderForm(){
+  const f=$("#form");if(!f)return;
+  $(".ed").className="ed s"+step;
+  const tabs=["ทรัพย์หลัก","คู่เทียบ","กลยุทธ์","ตรวจ & ส่งออก"];
+  f.innerHTML=`<div class="steps">${tabs.map((t,i)=>`<button class="${step===i+1?"on":""}" data-act="step" data-n="${i+1}">${i+1} ${t}</button>`).join("")}</div>
+  ${[formProperty,formComps,formStrategy,formExport][step-1]()}
+  <div class="nav">${step>1?`<button class="btn" data-act="step" data-n="${step-1}">ย้อนกลับ</button>`:""}${step<4?`<button class="btn pri" data-act="step" data-n="${step+1}">ถัดไป: ${tabs[step]}</button>`:`<button class="btn gold" data-act="print">Export PDF</button>`}</div>`;
+  updateOuts();
+}
+const fld=(label,inner,style="")=>`<label class="fld" style="${style}"><span>${label}</span>${inner}</label>`;
+const tx=(k,ph="")=>`<input data-k="${k}" value="${esc(getP(k))}" placeholder="${esc(ph)}">`;
+const nm=(k,ph="",x="")=>`<input class="n" inputmode="decimal" autocomplete="off" data-k="${k}" value="${fmtIn(getP(k))}" placeholder="${ph}" ${x}>`;
+const money=(k,ph)=>`<div class="wnum">${nm(k,ph)}<button type="button" data-act="x000" data-k="${k}">000</button></div>`;
+const stepper=(k)=>`<div class="stp"><button type="button" data-act="dec" data-k="${k}">−</button><b data-out="v:${k}">${getP(k)}</b><button type="button" data-act="inc" data-k="${k}">+</button></div>`;
+const photo=(k,label)=>{const v=getP(k);return`<label class="photo ${v?"has":""}" style="${v?`background-image:url('${v}')`:""}">${v?`<button type="button" class="rm" data-act="rmimg" data-k="${k}" aria-label="ลบรูป">×</button>`:`<span style="font-size:22px">📷</span>${label}`}<input type="file" accept="image/*" data-img="${k}"></label>`};
+
+function formProperty(){return`
+  <div class="sec"><h3>รูปภาพ</h3><div class="photos">${photo("photo","รูปทรัพย์หลัก")}</div>
+    <div style="font-size:12px;color:var(--muted)">แตะเพื่อถ่ายรูปหรือเลือกจากคลัง ระบบย่อขนาดไฟล์ให้อัตโนมัติ</div></div>
+  <div class="sec"><h3>ข้อมูลทรัพย์</h3>
+    ${fld("ชื่อทรัพย์ *",tx("name","บ้านกลางเมือง พระราม 9"))}
+    <div class="fld"><span>ประเภท</span><div class="chips">${TYPES.map(([k,l])=>`<button type="button" class="chip ${cur.type===k?"on":""}" data-act="set" data-k="type" data-v="${k}">${l}</button>`).join("")}</div></div>
+    <div class="row" style="--n:3">${fld("ไร่",nm("rai","0"))}${fld("งาน",nm("ngan","0"))}${fld("ตร.ว.",nm("wa","0"))}</div>
+    ${fld("พื้นที่ใช้สอย (ตร.ม.) *",nm("sqm","240"))}
+    <div class="row" style="--n:2">${fld("ห้องนอน",stepper("bed"))}${fld("ห้องน้ำ",stepper("bath"))}${fld("ชั้น",stepper("floor"))}${fld("ที่จอดรถ",stepper("parking"))}</div>
+  </div>
+  <div class="sec"><h3>ราคา (บาท)</h3>
+    ${fld("Asking price *",money("asking","10,500,000"))}
+    ${fld("Net price (เจ้าของได้รับสุทธิ)",money("net","10,000,000"))}
+    <div class="auto">ต่อ ตร.ว. <b data-out="ppw"></b> · ต่อ ตร.ม. <b data-out="ppm"></b> · ที่ดินรวม <b data-out="land"></b> ตร.ว.</div>
+    <div class="fld"><span>กรอบเวลาขาย (วัน)</span><div class="chips">${[30,60,90,120,180].map(d=>`<button type="button" class="chip ${+cur.timeframe===d?"on":""}" data-act="set" data-k="timeframe" data-v="${d}" data-num="1">${d} วัน</button>`).join("")}</div></div>
+  </div>
+  <div class="sec"><h3>เป้าหมายของเจ้าของ</h3>
+    <div class="chips">${OBJ_CHIPS.map(o=>`<button type="button" class="chip add" data-act="obj" data-v="${esc(o)}">+ ${esc(o.replace(/^ต้องการ/,""))}</button>`).join("")}</div>
+    <label class="fld"><textarea data-k="objective" placeholder="แตะข้อความด้านบน หรือพิมพ์เอง">${esc(cur.objective)}</textarea></label></div>
+  <div class="sec"><h3>ผู้จัดทำ</h3><div class="row">${fld("ชื่อเซลล์",tx("consultant","HOME Consultant"))}${fld("วันที่",`<input type="date" data-k="date" value="${esc(cur.date)}">`)}</div></div>`}
+
+function formComps(){const c=calc(cur);return`
+  <div class="sec"><h3>สรุปตลาด</h3><div class="stats">
+    <div class="stat"><span>Last match (มัธยฐาน)</span><b data-out="lastMed"></b></div><div class="stat"><span>Median comp.</span><b data-out="medComp"></b></div>
+    <div class="stat"><span>Median /ตร.ม.</span><b data-out="medPpm"></b></div><div class="stat"><span>ทรัพย์หลัก /ตร.ม.</span><b data-out="ppm"></b></div></div>
+    ${c.last.length?"":`<div class="warn" style="margin:10px 0 0">ยังไม่มีแถว Last match ระบบจะใช้ค่านี้เป็นฐานกลยุทธ์ ควรมีอย่างน้อย 1 แถว</div>`}</div>
+  ${cur.comps.map((x,i)=>`<div class="cc ${x.ref==="last"?"last":""}">
+    <div class="cc-h"><span class="n">#${i+1}</span>
+      <span class="seg"><button type="button" class="${x.ref==="last"?"on gold":""}" data-act="ref" data-i="${i}" data-v="last">Last match</button><button type="button" class="${x.ref!=="last"?"on":""}" data-act="ref" data-i="${i}" data-v="comp">Competitor</button></span>
+      <label class="chk"><input type="checkbox" data-k="comps.${i}.show" ${x.show!==false?"checked":""}> การ์ดหน้า 4</label>
+      <button type="button" class="btn sm ghost danger" data-act="delcomp" data-i="${i}">ลบ</button></div>
+    <div class="cc-b">${photo(`comps.${i}.photo`,"รูป")}
+      <div>${fld("ชื่อ / โครงการ",tx(`comps.${i}.name`,"บ้านคู่แข่ง B"))}
+        ${fld("ราคา (บาท)",money(`comps.${i}.price`,"11,500,000"))}
+        <div class="row" style="--n:4">${fld("ตร.ม.",nm(`comps.${i}.sqm`))}${fld("ตร.ว.",nm(`comps.${i}.sqw`))}${fld("นอน",nm(`comps.${i}.bed`))}${fld("น้ำ",nm(`comps.${i}.bath`))}</div></div></div>
+    <div class="cc-o" data-out="comp:${i}"></div></div>`).join("")}
+  <div class="row"><button type="button" class="btn" data-act="addcomp" data-v="last">+ Last match</button><button type="button" class="btn" data-act="addcomp" data-v="comp">+ Competitor</button></div>
+  <p style="font-size:12px;color:var(--muted)">หน้า 4 แสดงการ์ดได้สูงสุด 3 ใบ ตามลำดับที่ติ๊ก "การ์ดหน้า 4"</p>`}
+
+function formStrategy(){return`
+  <div class="sec"><h3>ฐานคำนวณราคา</h3><div class="chips">${[["last","Last match"],["asking","Asking"],["median","Median comp."]].map(([k,l])=>`<button type="button" class="chip ${cur.base===k?"on":""}" data-act="set" data-k="base" data-v="${k}">${l}</button>`).join("")}</div>
+    <div class="auto" style="margin:0">ฐาน <b data-out="baseVal"></b> บาท · ส่วนต่าง Asking−Net <b data-out="spread"></b></div></div>
+  ${cur.plans.map((p,i)=>`<div class="plan ${i?"dark":""}"><h4>แผน ${i?"B":"A"} · ${esc(p.short)}</h4>
+    <div class="row">${fld("ระยะเวลา (วัน)",nm(`plans.${i}.days`))}<label class="fld"><span>Under value %</span><div class="slider"><input type="range" min="0" max="50" step="1" value="${+p.pct||0}" data-k="plans.${i}.pct" data-num="1"><input class="inp n" inputmode="decimal" data-k="plans.${i}.pct" value="${fmtIn(p.pct)}"></div></label></div>
+    <div class="res"><div><span>Update price</span><b data-out="up:${i}"></b></div><div><span>Estimated net</span><b data-out="est:${i}"></b></div></div>
+    <details><summary>แก้ข้อความในเล่ม</summary>
+      ${fld("หัวข้อภาษาอังกฤษ",tx(`plans.${i}.en`))}${fld("คำอธิบายใต้หัวข้อ",tx(`plans.${i}.sub`))}${fld("ชื่อสั้นในช่องตัดสินใจ",tx(`plans.${i}.short`))}
+      ${p.points.map((_,j)=>`<label class="fld"><span>ข้อ ${j+1}</span><textarea data-k="plans.${i}.points.${j}">${esc(p.points[j])}</textarea></label>`).join("")}
+      <label class="fld"><span>สิ่งที่คุณได้รับ</span><textarea data-k="plans.${i}.gain">${esc(p.gain)}</textarea></label></details></div>`).join("")}
+  <div class="sec"><h3>ข้อความหน้าตัดสินใจ</h3>${cur.quotes.map((q,i)=>`<label class="fld"><span>ข้อความ ${i+1} · {a} {b} = จำนวนวันแผน A, B</span><textarea data-k="quotes.${i}">${esc(q)}</textarea></label>`).join("")}
+    <button type="button" class="btn sm" data-act="resettext">คืนค่าข้อความมาตรฐาน</button></div>`}
+
+function warnings(){const c=calc(cur),w=[];
+  if(!cur.name)w.push("ยังไม่ได้ใส่ชื่อทรัพย์");if(!cur.asking)w.push("ยังไม่ได้ใส่ Asking price");if(!cur.sqm)w.push("ยังไม่ได้ใส่พื้นที่ใช้สอย");
+  if(!cur.net)w.push("ยังไม่ได้ใส่ Net price — Estimated net จะเท่ากับ Update price");
+  if(!cur.photo)w.push("ยังไม่มีรูปทรัพย์หลัก");if(!c.valid.length)w.push("ยังไม่มีทรัพย์เปรียบเทียบ");
+  else if(!c.last.length&&cur.base==="last")w.push("ไม่มีแถว Last match แต่เลือกฐานเป็น Last match");
+  cur.comps.forEach((x,i)=>{if(x.show!==false&&!x.photo&&x.price)w.push(`คู่เทียบ #${i+1} ยังไม่มีรูป`)});
+  if((cur.name||"").length>40)w.push("ชื่อทรัพย์ยาวมาก อาจล้นบนหน้าปก");
+  if(cur.comps.length>14)w.push("คู่เทียบเกิน 14 แถว ตารางหน้า 3 จะแสดงแค่ 14 แถวแรก");
+  return w}
+function formExport(){const w=warnings();return`
+  <div class="sec"><h3>ตรวจก่อนส่งออก</h3>${w.length?w.map(x=>`<div class="warn">⚠ ${x}</div>`).join(""):`<div class="ok">✓ ข้อมูลครบ พร้อม export</div>`}</div>
+  <div class="sec"><h3>หน้าที่จะแสดง</h3>
+    <label class="chk" style="margin:0 0 8px;font-size:14px;color:var(--text)"><input type="checkbox" data-k="pages.p3" ${cur.pages.p3!==false?"checked":""}> Market comparison (ตาราง + กราฟแท่ง)</label>
+    <label class="chk" style="margin:0;font-size:14px;color:var(--text)"><input type="checkbox" data-k="pages.p4" ${cur.pages.p4!==false?"checked":""}> Listing comparison (การ์ดคู่แข่ง)</label></div>
+  <div class="sec"><h3>การตัดสินใจของเจ้าของ</h3>
+    <div class="dec">${[["a",`อนุมัติแผน A`,`${cur.plans[0].days} วัน`],["b",`อนุมัติแผน B`,`${cur.plans[1].days} วัน`],["rev","ขอแก้ไข","ปรับแผน"],["none","ยังไม่ตัดสินใจ","พิจารณาภายหลัง"]].map(([k,a,b])=>`<button type="button" class="${cur.decision===k?"on":""}" data-act="decide" data-v="${k}"><b>${a}</b><span>${b}</span></button>`).join("")}</div>
+    <div class="row">${fld("วันที่ตัดสินใจ",`<input type="date" data-k="decisionDate" value="${esc(cur.decisionDate)}">`)}${fld("สถานะ",`<select data-k="status">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${cur.status===k?"selected":""}>${v}</option>`).join("")}</select>`)}</div>
+    <label class="fld"><span>หมายเหตุจากเจ้าของ</span><textarea data-k="decisionNote" placeholder="เช่น ขอปรับราคาแผน A เป็น 9 ล้าน">${esc(cur.decisionNote)}</textarea></label></div>
+  <div class="sec only-m"><h3>วิธี export บนมือถือ</h3><div style="font-size:13px;color:var(--muted);line-height:1.6">กด Export PDF → เลือก "บันทึกเป็น PDF" หรือกดแชร์ แล้วส่งเข้า LINE ได้เลย</div></div>`}
+
+function outs(){const c=calc(cur),o={ppw:fmt(c.ppw),ppm:fmt(c.ppm),land:fmt(c.land),lastMed:fmt(c.lastMed),medComp:fmt(c.medComp),medPpm:fmt(c.medPpm),baseVal:fmt(c.baseVal),spread:fmt(c.spread)};
+  c.plans.forEach((p,i)=>{o["up:"+i]=fmt(p.up);o["est:"+i]=fmt(p.est)});
+  return{o,c}}
+function updateOuts(){if(!cur)return;const{o,c}=outs();
+  document.querySelectorAll("[data-out]").forEach(el=>{const k=el.dataset.out;
+    if(k.startsWith("v:"))el.textContent=getP(k.slice(2));
+    else if(k.startsWith("comp:")){const x=c.comps[+k.slice(5)];el.innerHTML=x&&x.price?`<span>/ตร.ม. <b>${fmt(x.ppm)}</b></span><span>เทียบ Asking <b>${pctS(x.delta)}</b></span>${x.tags.map(([l])=>`<span class="tag">${l}</span>`).join("")}`:"กรอกราคาเพื่อคำนวณ"}
+    else el.textContent=o[k]??""})}
+
+/* ================= preview & print ================= */
+function renderPreview(){const pv=$("#pv");if(!pv||!cur)return;pv.innerHTML=report(cur);fitPreview();
+  const n=pv.querySelectorAll(".page").length,pc=$("#pgcount");if(pc)pc.textContent=n+" หน้า"}
+function fitPreview(){const w=$("#pvwrap"),pv=$("#pv");if(!w||!pv)return;const z=Math.min(1,(w.clientWidth||794)/794);pv.style.zoom=z;}
+function doPrint(){if(!cur)return;$("#print").innerHTML=report(cur);const t=document.title;document.title=`${cur.code} ${cur.name} Market Survey`.trim();
+  const imgs=[...document.querySelectorAll("#print [style*='background-image']")];
+  document.fonts.ready.then(()=>{setTimeout(()=>{window.print();document.title=t},imgs.length?250:50)})}
+window.addEventListener("resize",fitPreview);
+
+/* ================= images ================= */
+function readImg(file,max=1600){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height));const cv=document.createElement("canvas");cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.82))};im.onerror=()=>rej(new Error("อ่านไฟล์รูปไม่ได้"));im.src=r.result};r.onerror=()=>rej(r.error);r.readAsDataURL(file)})}
+
+/* ================= events ================= */
+function parseNum(v){const n=parseFloat(String(v).replace(/[^\d.]/g,""));return Number.isFinite(n)?n:0}
+app.addEventListener("input",e=>{const el=e.target,k=el.dataset.k;if(!k||!cur||el.type==="file")return;
+  if(el.type==="checkbox"){setP(k,el.checked)}
+  else if(el.classList.contains("n")){const fromEnd=el.value.length-(el.selectionStart??el.value.length);const raw=el.value.replace(/[^\d.]/g,"");setP(k,parseNum(raw));
+    const [a,b]=raw.split(".");el.value=a?Number(a).toLocaleString("en-US")+(b!==undefined?"."+b:""):raw;const p=Math.max(0,el.value.length-fromEnd);try{el.setSelectionRange(p,p)}catch(_){}
+    document.querySelectorAll(`[data-k="${k}"]`).forEach(o=>{if(o!==el)o.value=o.type==="range"?getP(k):fmtIn(getP(k))})}
+  else if(el.dataset.num){setP(k,parseNum(el.value));document.querySelectorAll(`[data-k="${k}"]`).forEach(o=>{if(o!==el)o.value=fmtIn(getP(k))})}
+  else setP(k,el.value);
+  if(k==="name")$(".top .hide-m")&&($(".top .hide-m").textContent=cur.name);
+  if(k==="status")cur.status=el.value;
+  if(k.startsWith("pages."))renderForm();
+  changed()});
+app.addEventListener("change",async e=>{const el=e.target;if(!el.dataset.img||!el.files[0])return;
+  try{setP(el.dataset.img,await readImg(el.files[0]));renderForm();changed()}catch(err){alert(err.message)}});
+app.addEventListener("click",async e=>{const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act,k=b.dataset.k;
+  if(a!=="open"&&b.tagName!=="DIV"&&b.tagName!=="ARTICLE")e.preventDefault();
+  switch(a){
+    case"new":{const s=blank(nextCode());surveys.push(s);await DB.put(s);openSurvey(s);break}
+    case"sample":{const s=sample(nextCode());surveys.push(s);await DB.put(s);openSurvey(s);break}
+    case"open":openSurvey(surveys.find(s=>s.id===b.dataset.id));break;
+    case"dup":{const o=surveys.find(s=>s.id===b.dataset.id);const s=JSON.parse(JSON.stringify(o));Object.assign(s,{id:uid(),code:nextCode(),created:Date.now(),updated:Date.now(),status:"draft",decision:"",decisionNote:"",decisionDate:"",date:today(),name:o.name+" (สำเนา)"});surveys.push(s);await DB.put(s);showList();break}
+    case"del":{const o=surveys.find(s=>s.id===b.dataset.id);if(confirm(`ลบ ${o.code} ${o.name}? กู้คืนไม่ได้`)){await DB.del(o.id);surveys=surveys.filter(s=>s!==o);showList()}break}
+    case"back":clearTimeout(saveT);await DB.put(cur);showList();window.scrollTo(0,0);break;
+    case"step":step=+b.dataset.n;renderForm();$(".ed").className="ed s"+step;fitPreview();window.scrollTo(0,0);break;
+    case"set":setP(k,b.dataset.num?+b.dataset.v:b.dataset.v);renderForm();changed();break;
+    case"inc":case"dec":setP(k,Math.max(0,(+getP(k)||0)+(a==="inc"?1:-1)));updateOuts();changed();break;
+    case"x000":{const v=(+getP(k)||0)*1000;setP(k,v);const i=b.parentNode.querySelector("input");i.value=fmtIn(v);changed();break}
+    case"obj":{const t=(cur.objective||"").trim();cur.objective=t?t+" และ"+b.dataset.v:b.dataset.v;$('[data-k="objective"]').value=cur.objective;changed();break}
+    case"rmimg":setP(k,"");renderForm();changed();break;
+    case"ref":cur.comps[+b.dataset.i].ref=b.dataset.v;renderForm();changed();break;
+    case"addcomp":cur.comps.push(blankComp(b.dataset.v));renderForm();changed();setTimeout(()=>{const l=document.querySelectorAll(".cc");l[l.length-1]?.scrollIntoView({behavior:"smooth",block:"center"})},30);break;
+    case"delcomp":{const i=+b.dataset.i;if(confirm(`ลบคู่เทียบ #${i+1}?`)){cur.comps.splice(i,1);renderForm();changed()}break}
+    case"decide":cur.decision=b.dataset.v;cur.status={a:"a",b:"b",rev:"rev",none:"sent"}[b.dataset.v];if(!cur.decisionDate)cur.decisionDate=today();renderForm();changed();break;
+    case"resettext":if(confirm("คืนค่าข้อความมาตรฐานทั้งหมด? (ไม่กระทบตัวเลข)")){const d=defaultPlans();cur.plans.forEach((p,i)=>Object.assign(p,{en:d[i].en,sub:d[i].sub,short:d[i].short,points:d[i].points,gain:d[i].gain}));cur.quotes=DEFAULT_QUOTES.slice();renderForm();changed()}break;
+    case"print":clearTimeout(saveT);await DB.put(cur);doPrint();break;
+    case"export":{const blob=new Blob([JSON.stringify({app:"home-market-survey",v:1,exported:new Date().toISOString(),surveys},null,1)],{type:"application/json"});const u=URL.createObjectURL(blob);const l=document.createElement("a");l.href=u;l.download=`home-market-survey-backup-${today()}.json`;l.click();setTimeout(()=>URL.revokeObjectURL(u),1000);break}
+    case"import":$("#importFile").click();break;
+  }});
+$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());const list=Array.isArray(d)?d:d.surveys;if(!Array.isArray(list))throw new Error("ไฟล์ไม่ถูกต้อง");
+  let n=0;for(const s of list){if(!s.id||!s.code)continue;await DB.put(s);const i=surveys.findIndex(x=>x.id===s.id);i>=0?surveys[i]=s:surveys.push(s);n++}alert(`นำเข้า ${n} รายการ`);showList()}catch(err){alert("นำเข้าไม่สำเร็จ: "+err.message)}e.target.value=""});
+
+/* ================= boot ================= */
+(async()=>{try{await DB.open();surveys=await DB.all()||[]}catch(err){console.error(err);alert("เบราว์เซอร์นี้บันทึกข้อมูลไม่ได้ (โหมดส่วนตัว?) ข้อมูลจะหายเมื่อปิดหน้า")}showList()})();
+</script>
+</body>
+</html>
